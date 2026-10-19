@@ -8,7 +8,7 @@ This is a heuristic toy for noticing interaction patterns, not validated intent 
 
 1. Download this repository (Code → Download ZIP) and unzip it, or clone it.
 2. In desktop Chrome, open `chrome://extensions`, enable **Developer mode**, choose **Load unpacked**, and select the **`extension/`** directory (the one containing `manifest.json`). No build is needed.
-3. Pin **Next Click Lab** using Chrome’s Extensions menu. Open a non-sensitive HTTP(S) page, click its toolbar icon, then **Turn on**. The popup says **On · this document**. Move your mouse toward a link/button and pause briefly.
+3. Pin **Next Click Lab** using Chrome’s Extensions menu. Open a non-sensitive HTTP(S) page, click its toolbar icon, then **Turn on**. The popup says **On · this document**. Dismiss it with Escape, then move your mouse toward a link/button and pause briefly.
 4. Reopen the popup for the on/off switch, mode selector and session scoreboard. **Turn off** removes the outline and stops tracking. **Clear scores** resets both modes for this tab.
 
 Chrome 120+ is the declared API minimum, not a claim of testing every version. This release supports desktop Chrome only; see [verification evidence](evidence/README.md) for the actual tested build. Chrome’s internal pages, extension pages, PDFs, file URLs, Web Store, incognito and some managed pages are unsupported. No Web Store listing or cross-browser release is included.
@@ -23,7 +23,7 @@ With Node 22.14+ installed, run `npm ci` and `npm run demo`; open **http://127.0
 - Scroll to the lower garden. The old guess is cleared; move toward the new target. Disabled and invisible examples must not receive a highlight.
 - Follow “Next page.” Prediction stops on the new document; this tab’s aggregates remain. Re-enable explicitly to continue. Clear scores to start a new session.
 
-For a personal experiment, decide equal-length visible and hidden blocks in advance, alternate the order on repeated sessions, and report counts alongside rates. Mode choice is manual, **not a randomized holdout**. Practice, page difficulty and carryover can confound any comparison. Tiny samples and scripted fixtures cannot establish real-world predictive performance or a causal effect of highlighting.
+For a personal experiment, decide equal-length visible and hidden blocks in advance, alternate the order on repeated sessions, and report counts alongside rates. Dismiss the popup with Escape after changing mode before continuing on the page. Mode choice is manual, **not a randomized holdout**. Practice, page difficulty and carryover can confound any comparison. Tiny samples and scripted fixtures cannot establish real-world predictive performance or a causal effect of highlighting.
 
 ## Exactly what is scored
 

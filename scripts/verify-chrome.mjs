@@ -67,6 +67,15 @@ try {
         ),
       index,
     );
+  async function aim(selector) {
+    const rect = await page.$eval(selector, (el) => {
+      const r = el.getBoundingClientRect();
+      return { x: r.x, y: r.y, width: r.width, height: r.height };
+    });
+    await page.mouse.move(rect.x + 5, rect.y + 5, { steps: 8 });
+    await page.hover(selector);
+    await new Promise((r) => setTimeout(r, 350));
+  }
   async function popup() {
     await page.bringToFront();
     await extension.triggerAction(page);
@@ -88,8 +97,20 @@ try {
   await panel.click("#toggle");
   await contains(panel, "#status", "On");
   await dismiss(panel);
-  await page.hover("#fern");
+  await aim("#fern");
   await visible(true);
+  await expect
+    .poll(() =>
+      page.evaluate(() =>
+        Math.abs(
+          document.querySelector("#fern").getBoundingClientRect().x -
+            document
+              .querySelector("[data-next-click-lab]")
+              .getBoundingClientRect().x,
+        ),
+      ),
+    )
+    .toBeLessThan(2);
   await page.screenshot({ path: "evidence/chrome-visible.png" });
   await page.mouse.down();
   await page.mouse.up();
@@ -104,11 +125,10 @@ try {
   await panel.select("#mode", "hidden");
   await equal(panel, "#score", "Heuristic score: hidden");
   await dismiss(panel);
-  await page.hover("#moss");
+  await aim("#moss");
   await new Promise((r) => setTimeout(r, 300));
   await visible(false);
-  await page.mouse.down();
-  await page.mouse.up();
+  await page.click("#moss");
   panel = await popup();
   await expect.poll(() => numbers(panel, 1)).toEqual(["1", "1", "1"]);
   await equal(panel, "#score", "Heuristic score: hidden");
@@ -127,11 +147,11 @@ try {
   await panel.click("#toggle");
   await contains(panel, "#status", "On");
   await dismiss(panel);
-  await page.hover("#moss");
+  await aim("#moss");
   await visible(true);
   await page.mouse.wheel({ deltaY: 1000 });
   await new Promise((r) => setTimeout(r, 300));
-  await page.hover("#lowerButton");
+  await aim("#lowerButton");
   await visible(true);
   await expect
     .poll(() =>
@@ -148,7 +168,7 @@ try {
   checks.push(
     "Off removes the overlay and ignores fixture clicks; re-enable works. Scroll updates to the lower visible target.",
   );
-  await page.hover("#lower a");
+  await aim("#lower a");
   await new Promise((r) => setTimeout(r, 300));
   await Promise.all([page.waitForNavigation(), page.click("#lower a")]);
   expect(page.url()).toContain("/second.html");
