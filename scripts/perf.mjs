@@ -70,7 +70,7 @@ try {
       "Three alternating rounds, identical 400-button page, 180 pointer moves each with 16ms requested spacing; fresh page each sample. CDP renderer TaskDuration delta includes fixture, automation and extension work. No navigation during sample. Tick mean budget <40ms (loose regression tripwire).",
     samples,
     limitations:
-      "Microbenchmark, not production latency or memory proof. Wall time depends on input/automation scheduling. Native querySelectorAll scans page DOM; only first 400 matching candidates are evaluated. Compare task time and ticks across modes; never infer prediction accuracy.",
+      "Direct predictor microbenchmark; excludes popup and worker writes. Not production latency or memory proof. Wall time depends on input/automation scheduling. Native querySelectorAll scans page DOM; only first 400 matching candidates are evaluated. Compare task time and ticks across modes; never infer prediction accuracy.",
   };
   await writeFile(
     "evidence/performance.json",

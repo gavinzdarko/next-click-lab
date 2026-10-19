@@ -73,7 +73,7 @@ Install Google Chrome from its official vendor source first. `CHROME_CHANNEL=chr
 
 Tests cover visibility/disabled/occluded targets, direction/dwell changes, pre-down freezing, no prediction, separate keyboard activation, untrusted clicks, hidden mode, scroll/removal/SPA/idle invalidation, repeated teardown and password guards. Fixture tests load the same predictor directly; the separate installed-extension test checks permissions, popup, worker aggregation, toggle, scroll, full navigation and clearing.
 
-Performance uses three alternating rounds per off/hidden/visible mode on the same synthetic 400-button DOM and pointer path. Renderer task time includes automation/fixture work. Tick mean below 40ms is only a loose regression tripwire. Results depend on hardware, Chrome and scheduler; no general overhead or predictive-performance guarantee is implied. See committed JSON and screenshots in `evidence/` plus CI artifacts.
+Performance uses three alternating rounds per off/hidden/visible mode on the same synthetic 400-button DOM and pointer path. The benchmark loads the packaged predictor directly; it excludes popup rendering and worker counter writes. Renderer task time includes automation/fixture work. Tick mean below 40ms is only a loose regression tripwire. Results depend on hardware, Chrome and scheduler; no general overhead or predictive-performance guarantee is implied. See committed JSON and screenshots in `evidence/` plus CI artifacts.
 
 ## Layout
 

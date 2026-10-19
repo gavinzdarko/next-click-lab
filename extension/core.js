@@ -104,6 +104,7 @@
       this.hover = null;
       this.hoverSince = 0;
       this.lastScroll = -Infinity;
+      this.scrollPosition = { x: this.win.scrollX, y: this.win.scrollY };
       this.work = { ticks: 0, totalMs: 0, maxMs: 0 };
     }
     start(mode = "visible") {
@@ -115,6 +116,7 @@
         return;
       }
       this.enabled = true;
+      this.scrollPosition = { x: this.win.scrollX, y: this.win.scrollY };
       this.abort = new this.win.AbortController();
       const listen = (target, name, fn) =>
         target.addEventListener(name, fn, {
@@ -161,11 +163,13 @@
       });
       listen(this.doc, "click", (e) => this.click(e));
       listen(this.doc, "scroll", () => {
+        this.scrollPosition = { x: this.win.scrollX, y: this.win.scrollY };
         this.lastScroll = this.now();
         this.invalidate();
       });
       listen(this.win, "resize", () => this.invalidate());
-      listen(this.win, "blur", () => {
+      listen(this.win, "blur", (event) => {
+        if (event.target !== this.win) return;
         this.pointer = null;
         this.pressed = false;
         this.invalidate();
@@ -228,15 +232,27 @@
     validPrediction() {
       const p = this.prediction;
       return p &&
+        this.scrollUnchanged() &&
         this.now() - p.at < 300 &&
         this.now() - (this.pointer?.time ?? -Infinity) < 1800 &&
         eligible(p.el, this.doc)
         ? { ...p }
         : null;
     }
+    scrollUnchanged() {
+      return (
+        this.scrollPosition.x === this.win.scrollX &&
+        this.scrollPosition.y === this.win.scrollY
+      );
+    }
     tick() {
       if (!this.enabled) return;
       const begin = this.now();
+      if (!this.scrollUnchanged()) {
+        this.scrollPosition = { x: this.win.scrollX, y: this.win.scrollY };
+        this.lastScroll = begin;
+        this.invalidate();
+      }
       if (this.doc.querySelector('input[type="password"]')) {
         this.stop();
         this.blocked = true;
@@ -314,7 +330,11 @@
       // Touch/pen and unpaired/programmatic clicks do not enter pointer metrics.
       if (!this.pressed) return;
       const p = this.frozen;
-      const valid = p && this.now() - p.at < 2000 && eligible(p.el, this.doc);
+      const valid =
+        p &&
+        this.scrollUnchanged() &&
+        this.now() - p.at < 2000 &&
+        eligible(p.el, this.doc);
       const delta = {
         clicks: 1,
         predictions: valid ? 1 : 0,

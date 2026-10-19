@@ -263,3 +263,20 @@ test("pointer re-entry with no buttons recovers from a missing drag release", as
     .toBe("moss");
   expect((await stats(page)).visible.clicks).toBe(0);
 });
+test("focus moving between page buttons does not cancel a pending mouse trial", async ({
+  page,
+}) => {
+  await setup(page);
+  await hover(page, "#fern");
+  await page.mouse.down();
+  await page.mouse.up();
+  await hover(page, "#moss");
+  await page.mouse.down();
+  await page.mouse.up();
+  expect((await stats(page)).visible).toEqual({
+    clicks: 2,
+    predictions: 2,
+    correct: 2,
+    keyboard: 0,
+  });
+});
