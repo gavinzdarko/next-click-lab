@@ -1,6 +1,6 @@
 # Next Click Lab
 
-A small “can this read my mind?” experiment for **desktop Google Chrome**. It guesses your next visible link or button from pointer proximity, direction and hover duration. One subtle outline follows its best guess. Try hidden mode to see what happens when the outline cannot guide you.
+A small “can this read my mind?” experiment for **desktop Google Chrome**. It guesses your next visible link or button from pointer proximity, direction and hover duration. One subtle outline follows its best guess, with a small heuristic score label. Try hidden mode to see what happens when the outline cannot guide you.
 
 This is a heuristic toy for noticing interaction patterns, not validated intent detection or an accessibility aid. The 0–100 score is a ranking score, **not probability or confidence calibrated against data**. There is no claimed accuracy.
 

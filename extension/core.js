@@ -183,9 +183,14 @@
       this.overlay.setAttribute("aria-hidden", "true");
       this.overlay.style.cssText =
         "all:initial!important;position:fixed!important;pointer-events:none!important;z-index:2147483647!important;border:2px solid #7367d7!important;border-radius:7px!important;box-shadow:0 0 0 3px #7367d71a!important;box-sizing:border-box!important;display:none!important;";
+      this.caption = this.doc.createElement("span");
+      this.caption.style.cssText =
+        "all:initial!important;position:absolute!important;left:0!important;bottom:calc(100% + 5px)!important;pointer-events:none!important;white-space:nowrap!important;background:#f8f7ff!important;color:#6555a2!important;border-radius:4px!important;padding:3px 6px!important;font:10px system-ui!important;";
+      this.overlay.append(this.caption);
       this.doc.documentElement.append(this.overlay);
       this.observer = new this.win.MutationObserver((records) => {
-        if (records.some((r) => r.target !== this.overlay)) this.invalidate();
+        if (records.some((r) => !this.overlay?.contains(r.target)))
+          this.invalidate();
       });
       this.observer.observe(this.doc.documentElement, {
         subtree: true,
@@ -274,6 +279,7 @@
     paint() {
       this.overlay.style.setProperty("display", "none", "important");
       if (this.mode === "hidden" || !this.prediction) return;
+      this.caption.textContent = `Heuristic ${this.prediction.score} / 100`;
       const r = this.prediction.el.getBoundingClientRect();
       for (const [key, value] of Object.entries({
         left: r.left,

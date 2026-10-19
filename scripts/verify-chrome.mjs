@@ -22,8 +22,16 @@ try {
   });
   const page = await context.newPage();
   await page.goto("http://127.0.0.1:4173");
-  const target = await context.newCDPSession(page);
-  const { targetInfo } = await target.send("Target.getTargetInfo");
+  const { targetInfos } = await cdp.send("Target.getTargets", {
+    filter: [{ type: "tab", exclude: false }],
+  });
+  const targetInfo = targetInfos.find(
+    (t) => t.type === "tab" && t.url === page.url(),
+  );
+  if (!targetInfo)
+    throw new Error(
+      `Fixture tab target missing: ${JSON.stringify(targetInfos)}`,
+    );
   async function popup() {
     await page.bringToFront();
     const result = context.waitForEvent("page", {
