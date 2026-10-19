@@ -1,0 +1,90 @@
+{
+  "at": "2026-10-19T18:25:03.439Z",
+  "browser": "155.0.8059.39",
+  "platform": "linux",
+  "method": "Three alternating rounds, identical 400-button page, 180 pointer moves each with 16ms requested spacing; fresh page each sample. CDP renderer TaskDuration delta includes fixture, automation and extension work. No navigation during sample. Tick mean budget <40ms (loose regression tripwire).",
+  "samples": [
+    {
+      "repeat": 0,
+      "mode": "off",
+      "wallMs": 3144,
+      "taskMs": 119.54,
+      "ticks": 0,
+      "tickMeanMs": 0,
+      "tickMaxMs": 0
+    },
+    {
+      "repeat": 0,
+      "mode": "hidden",
+      "wallMs": 3154,
+      "taskMs": 261.99,
+      "ticks": 26,
+      "tickMeanMs": 5.569,
+      "tickMaxMs": 16.2
+    },
+    {
+      "repeat": 0,
+      "mode": "visible",
+      "wallMs": 3312,
+      "taskMs": 293.81,
+      "ticks": 27,
+      "tickMeanMs": 5.674,
+      "tickMaxMs": 8
+    },
+    {
+      "repeat": 1,
+      "mode": "visible",
+      "wallMs": 3245,
+      "taskMs": 288.9,
+      "ticks": 27,
+      "tickMeanMs": 5.63,
+      "tickMaxMs": 8
+    },
+    {
+      "repeat": 1,
+      "mode": "hidden",
+      "wallMs": 3133,
+      "taskMs": 254.42,
+      "ticks": 26,
+      "tickMeanMs": 5.208,
+      "tickMaxMs": 7.2
+    },
+    {
+      "repeat": 1,
+      "mode": "off",
+      "wallMs": 3101,
+      "taskMs": 110.35,
+      "ticks": 0,
+      "tickMeanMs": 0,
+      "tickMaxMs": 0
+    },
+    {
+      "repeat": 2,
+      "mode": "off",
+      "wallMs": 3119,
+      "taskMs": 111.47,
+      "ticks": 0,
+      "tickMeanMs": 0,
+      "tickMaxMs": 0
+    },
+    {
+      "repeat": 2,
+      "mode": "hidden",
+      "wallMs": 3099,
+      "taskMs": 252.84,
+      "ticks": 25,
+      "tickMeanMs": 5.32,
+      "tickMaxMs": 10.5
+    },
+    {
+      "repeat": 2,
+      "mode": "visible",
+      "wallMs": 3307,
+      "taskMs": 293.93,
+      "ticks": 27,
+      "tickMeanMs": 5.922,
+      "tickMaxMs": 11.8
+    }
+  ],
+  "limitations": "Direct predictor microbenchmark; excludes popup and worker writes. Not production latency or memory proof. Wall time depends on input/automation scheduling. Native querySelectorAll scans page DOM; only first 400 matching candidates are evaluated. Compare task time and ticks across modes; never infer prediction accuracy."
+}

@@ -1,0 +1,19 @@
+{
+  "at": "2026-10-19T18:24:32.197Z",
+  "browser": "Chrome/155.0.8059.39",
+  "platform": "linux",
+  "display": "headed Chrome under Xvfb",
+  "profile": "fresh temporary profile, removed after run",
+  "installation": "Puppeteer public installExtension and extension.triggerAction APIs (CDP Extensions domain); real toolbar popup; no host-permission grants or content-script substitution",
+  "checks": [
+    "Installed unpacked MV3 extension in a fresh temporary Chrome profile; triggered the real toolbar action and enabled using its popup.",
+    "One visible pointer-events:none overlay; underlying fixture action completed.",
+    "Visible and hidden modes each recorded one controlled predicted/correct click; separate n=1 counts verified in popup. These scripted clicks are functional checks, not accuracy evidence.",
+    "Off removes the overlay and ignores fixture clicks; re-enable works. Scroll updates to the lower visible target.",
+    "A predicted real link click navigates and increments visible counts to predictions=2, actual=2, correct=2. Full navigation stops prediction; same-tab aggregate survives. Clear resets both modes. Can enable on the second document."
+  ],
+  "limitations": [
+    "Automated controlled fixtures only; no human predictive-performance study.",
+    "Not a Chrome Web Store installation review. No personal browsing data used."
+  ]
+}

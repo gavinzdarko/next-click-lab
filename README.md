@@ -35,7 +35,7 @@ Each mode has its own counters for the current tab/browser session:
 - **Hit rate = correct / actual clicks.** A no-prediction trial counts as a miss. **Coverage = predictions / actual clicks.** `n` is actual clicks; zero denominator displays `—`. Rates are measured session fractions, not forecasts.
 - **Keyboard:** trusted zero-detail activations on eligible targets, reported separately and excluded from pointer rates. This category may also include browser-mediated non-pointer activation. No keys or key codes are observed.
 
-The click handler never ranks candidates or consumes click coordinates as features. Pointer-down copies only a still-valid existing guess; intervening pointer movement does not update it while pressed. The last computed guess must be under 300ms old at pointer-down. It expires after a 2s hold, or if no longer eligible at activation. Scroll, resize, DOM eligibility changes and navigation invalidate it. After each scored click, fresh pointer movement is needed. Fast clicks may have no guess, which remains visible in coverage and hit rate.
+The click handler never ranks candidates or consumes click coordinates as features. Pointer-down copies only a still-valid existing guess; intervening pointer movement does not update it while pressed. The last computed guess must be under 300ms old at pointer-down. It expires if the computed snapshot is 2s old at activation, or if its target is no longer eligible. Scroll, resize, DOM eligibility changes and navigation invalidate it. After each scored mouse click, fresh pointer movement is needed. Fast clicks may have no guess, which remains visible in coverage and hit rate.
 
 ## Predictor and lifecycle
 

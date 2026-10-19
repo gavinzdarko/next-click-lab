@@ -17,6 +17,8 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - name: Remove old generated evidence from the fresh CI checkout
+        run: rm -f evidence/chrome-verification.json evidence/performance.json evidence/chrome-*.png
       - run: google-chrome --version
       - run: npm run format:check
       - run: npm run check
