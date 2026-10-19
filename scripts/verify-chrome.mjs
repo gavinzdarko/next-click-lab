@@ -22,6 +22,25 @@ try {
   const extension = (await browser.extensions()).get(id);
   page = await browser.newPage();
   await page.goto("http://127.0.0.1:4173");
+  await page.evaluate(() => {
+    window.fixtureEvents = [];
+    for (const type of ["pointerdown", "pointerup", "click", "blur"]) {
+      window.addEventListener(
+        type,
+        (e) => {
+          window.fixtureEvents.push({
+            type,
+            target: e.target.id || e.target.nodeName,
+            buttons: e.buttons,
+            detail: e.detail,
+            trusted: e.isTrusted,
+          });
+          if (window.fixtureEvents.length > 30) window.fixtureEvents.shift();
+        },
+        { capture: true },
+      );
+    }
+  });
   const text = (p, selector) => p.$eval(selector, (el) => el.textContent);
   const contains = async (p, selector, value) =>
     expect.poll(() => text(p, selector)).toContain(value);
@@ -60,11 +79,15 @@ try {
     await panel.waitForSelector("#toggle");
     return panel;
   }
+  async function dismiss(panel) {
+    await panel.close();
+    await page.bringToFront();
+  }
   let panel = await popup();
   await equal(panel, "#status", "Off");
   await panel.click("#toggle");
   await contains(panel, "#status", "On");
-  await page.bringToFront();
+  await dismiss(panel);
   await page.hover("#fern");
   await visible(true);
   await page.screenshot({ path: "evidence/chrome-visible.png" });
@@ -80,7 +103,7 @@ try {
   await panel.screenshot({ path: "evidence/chrome-popup.png" });
   await panel.select("#mode", "hidden");
   await equal(panel, "#score", "Heuristic score: hidden");
-  await page.bringToFront();
+  await dismiss(panel);
   await page.hover("#moss");
   await new Promise((r) => setTimeout(r, 300));
   await visible(false);
@@ -94,7 +117,7 @@ try {
   );
   await panel.click("#toggle");
   await equal(panel, "#status", "Off");
-  await page.bringToFront();
+  await dismiss(panel);
   expect(await page.$$("[data-next-click-lab]")).toHaveLength(0);
   await page.click("#fern");
   panel = await popup();
@@ -103,7 +126,7 @@ try {
   await contains(panel, "#score", "Heuristic score: —");
   await panel.click("#toggle");
   await contains(panel, "#status", "On");
-  await page.bringToFront();
+  await dismiss(panel);
   await page.hover("#moss");
   await visible(true);
   await page.mouse.wheel({ deltaY: 1000 });
@@ -164,6 +187,11 @@ try {
 } catch (error) {
   console.error(error);
   if (browser) {
+    if (page)
+      console.log(
+        "Fixture input events:",
+        await page.evaluate(() => window.fixtureEvents),
+      );
     for (const target of browser
       .targets()
       .filter((t) => t.url().endsWith("/popup.html"))) {
