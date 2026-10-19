@@ -1,0 +1,13 @@
+{
+  "sourceCommit": "2233423",
+  "run": "https://github.com/gavinzdarko/next-click-lab/actions/runs/39302124819",
+  "files": {
+    "extension/background.js": "177d73432dedb8d041af65c9f61557bdd49902261f9c62b102db593697d1652e",
+    "extension/content.js": "de489b0823e66d7ef962ed372b65ca7d9c316823df2e8d11f3217db26da835ba",
+    "extension/core.js": "a2febafb1fd5ddf3d8f20b4301cfdd626c15c3b715cf36ec412ea96ba225ea2f",
+    "extension/manifest.json": "089912b59132421453eb59fdfb00749689e642c6317c1f65d5885e912dcb65bf",
+    "extension/popup.css": "bab2daf90945ca3e664d04d2e832aa8fb734e14530945fbfcf9a4fe91eb031e7",
+    "extension/popup.html": "d388aeffa355cbc1240d4e6edd1ed74c6b8fe2ee8ac94bfd7910ef1b19a9d920",
+    "extension/popup.js": "36c0959c8847be1ff6c12975922582e69edced15fbf5a1d0fa6c203ef22d39ec"
+  }
+}
