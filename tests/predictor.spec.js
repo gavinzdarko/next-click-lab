@@ -63,6 +63,10 @@ test("freeze previous guess before down; click coordinates never improve it", as
   page,
 }) => {
   await setup(page);
+  // Keep prediction freshness independent of CI/IPC scheduling in this ordering test.
+  await page.evaluate(() => {
+    window.lab.now = () => 1000;
+  });
   await hover(page, "#fern");
   const rect = await page.locator("#moss").boundingBox();
   // A rapid move and down in one browser task leaves the already computed Fern guess intact.

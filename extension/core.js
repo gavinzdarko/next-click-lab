@@ -189,7 +189,10 @@
       this.overlay.append(this.caption);
       this.doc.documentElement.append(this.overlay);
       this.observer = new this.win.MutationObserver((records) => {
-        if (records.some((r) => !this.overlay?.contains(r.target)))
+        if (
+          records.length > 32 ||
+          records.some((r) => !this.overlay?.contains(r.target))
+        )
           this.invalidate();
       });
       this.observer.observe(this.doc.documentElement, {

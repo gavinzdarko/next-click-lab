@@ -14,7 +14,7 @@ try {
     pipe: true,
     enableExtensions: true,
     userDataDir: profile,
-    args: ["--no-sandbox"],
+    args: ["--no-sandbox", "--enable-unsafe-extension-debugging"],
     defaultViewport: { width: 1280, height: 900 },
   });
   console.log("Chrome", await browser.version());
