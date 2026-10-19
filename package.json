@@ -1,1 +1,24 @@
-{"name":"next-click-lab","version":"0.1.0","private":true,"description":"A local next-click guessing experiment for desktop Chrome","type":"module","scripts":{"lint":"eslint .","test":"playwright test","check":"npm run lint && npm test","demo":"node scripts/serve.mjs","perf":"node scripts/perf.mjs","verify:chrome":"node scripts/verify-chrome.mjs"},"devDependencies":{"@eslint/js":"^10.0.1","@playwright/test":"^1.58.0","eslint":"^10.0.0","globals":"^17.0.0"}}
+{
+  "name": "next-click-lab",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A local next-click guessing experiment for desktop Chrome",
+  "type": "module",
+  "scripts": {
+    "lint": "eslint .",
+    "test": "playwright test",
+    "check": "npm run lint && npm test",
+    "demo": "node scripts/serve.mjs",
+    "perf": "node scripts/perf.mjs",
+    "verify:chrome": "node scripts/verify-chrome.mjs",
+    "format": "prettier --write extension tests scripts *.js *.json README.md",
+    "format:check": "prettier --check extension tests scripts *.js *.json README.md"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.58.0",
+    "eslint": "^10.0.0",
+    "globals": "^17.0.0",
+    "prettier": "^3.9.10"
+  }
+}

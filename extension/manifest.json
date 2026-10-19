@@ -5,7 +5,10 @@
   "minimum_chrome_version": "120",
   "description": "A local next-click guessing experiment. Compare visible and hidden predictions.",
   "permissions": ["activeTab", "scripting", "storage"],
-  "background": {"service_worker": "background.js"},
-  "action": {"default_title": "Next Click Lab", "default_popup": "popup.html"},
+  "background": { "service_worker": "background.js" },
+  "action": {
+    "default_title": "Next Click Lab",
+    "default_popup": "popup.html"
+  },
   "incognito": "not_allowed"
 }

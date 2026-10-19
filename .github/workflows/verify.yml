@@ -1,5 +1,9 @@
 name: Verify
-on: [push, pull_request, workflow_dispatch]
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:
@@ -13,8 +17,12 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - run: google-chrome --version
+      - run: npm run format:check
       - run: npm run check
-      - run: npm run verify:chrome
+      - run: xvfb-run -a npm run verify:chrome
+        env:
+          HEADED: "1"
       - run: npm run perf
       - uses: actions/upload-artifact@v4
         if: always()
