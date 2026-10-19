@@ -5,7 +5,7 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { server } from "./serve.mjs";
 const profile = await mkdtemp(join(tmpdir(), "next-click-clean-"));
-let browser;
+let browser, page;
 const checks = [];
 try {
   browser = await puppeteer.launch({
@@ -20,7 +20,7 @@ try {
   console.log("Chrome", await browser.version());
   const id = await browser.installExtension(resolve("extension"));
   const extension = (await browser.extensions()).get(id);
-  const page = await browser.newPage();
+  page = await browser.newPage();
   await page.goto("http://127.0.0.1:4173");
   const text = (p, selector) => p.$eval(selector, (el) => el.textContent);
   const contains = async (p, selector, value) =>
@@ -79,6 +79,7 @@ try {
   await expect.poll(() => numbers(panel, 0)).toEqual(["1", "1", "1"]);
   await panel.screenshot({ path: "evidence/chrome-popup.png" });
   await panel.select("#mode", "hidden");
+  await equal(panel, "#score", "Heuristic score: hidden");
   await page.bringToFront();
   await page.hover("#moss");
   await new Promise((r) => setTimeout(r, 300));
@@ -99,6 +100,7 @@ try {
   panel = await popup();
   await expect.poll(() => numbers(panel, 0)).toEqual(["1", "1", "1"]);
   await panel.select("#mode", "visible");
+  await contains(panel, "#score", "Heuristic score: —");
   await panel.click("#toggle");
   await contains(panel, "#status", "On");
   await page.bringToFront();
@@ -161,6 +163,24 @@ try {
   console.log(JSON.stringify(report, null, 2));
 } catch (error) {
   console.error(error);
+  if (browser) {
+    for (const target of browser
+      .targets()
+      .filter((t) => t.url().endsWith("/popup.html"))) {
+      const panel = await target.asPage();
+      console.log(
+        "Popup failure state:",
+        await panel.$eval("body", (el) => el.innerText),
+      );
+      await panel.screenshot({ path: "evidence/chrome-failure.png" });
+    }
+    if (page)
+      for (const realm of page.extensionRealms())
+        console.log(
+          "Controller failure state:",
+          await realm.evaluate(() => globalThis.nextClickController?.status()),
+        );
+  }
   throw error;
 } finally {
   await browser?.close();

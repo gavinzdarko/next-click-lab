@@ -242,3 +242,24 @@ test("direction and stale-sample score boundaries; relative links remain candida
   expect(values.capped).toBeLessThanOrEqual(100);
   expect(values.relative).toBe(true);
 });
+test("pointer re-entry with no buttons recovers from a missing drag release", async ({
+  page,
+}) => {
+  await setup(page);
+  await hover(page, "#fern");
+  await page.mouse.down();
+  const cdp = await page.context().newCDPSession(page),
+    r = await page.locator("#moss").boundingBox();
+  await cdp.send("Input.dispatchMouseEvent", {
+    type: "mouseMoved",
+    x: r.x + 30,
+    y: r.y + 30,
+    buttons: 0,
+    pointerType: "mouse",
+  });
+  await expect.poll(() => page.evaluate(() => window.lab.pressed)).toBe(false);
+  await expect
+    .poll(() => page.evaluate(() => window.lab.prediction?.el.id))
+    .toBe("moss");
+  expect((await stats(page)).visible.clicks).toBe(0);
+});

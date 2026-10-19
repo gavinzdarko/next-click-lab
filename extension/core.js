@@ -123,7 +123,13 @@
           signal: this.abort.signal,
         });
       listen(this.doc, "pointermove", (e) => {
-        if (!e.isTrusted || e.pointerType !== "mouse" || this.pressed) return;
+        if (!e.isTrusted || e.pointerType !== "mouse") return;
+        if (this.pressed) {
+          if (e.buttons !== 0) return;
+          // Recover if a drag released outside the document and no up event arrived.
+          this.pressed = false;
+          this.invalidate();
+        }
         const t = this.now(),
           old = this.pointer,
           dt = Math.max(1, t - (old?.time ?? t));
