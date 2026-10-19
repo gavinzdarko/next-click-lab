@@ -1,0 +1,9 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Next Click Lab</title><link rel="stylesheet" href="popup.css">
+<body><header><span class="mark">↗</span><div><h1>Next Click Lab</h1><p>A little guess about your next move.</p></div></header>
+<main><div class="control"><div><strong>This page</strong><div id="status" role="status">Checking…</div></div><button id="toggle" aria-pressed="false">Turn on</button></div>
+<label for="mode">Evaluation mode</label><select id="mode"><option value="visible">Visible · show the guess</option><option value="hidden">Hidden · keep the guess private</option></select>
+<p id="score">Heuristic score: —</p><p class="note">A ranking score (0–100), not a probability. Hidden mode hides the score too. Move your mouse to begin.</p>
+<div class="section"><h2>This tab’s session</h2><button id="clear" class="quiet">Clear scores</button></div>
+<div id="scores"></div>
+<details><summary>What counts?</summary><p>Actual clicks: trusted primary mouse clicks on eligible targets while on. Predictions: those clicks with an eligible guess frozen before pointer-down. Correct: exact target matches.</p><p>Hit rate = correct / actual clicks. Coverage = predictions / actual clicks. No guess counts as a miss. Keyboard activations are separate and excluded. A changing guess is not another trial.</p></details>
+<p class="note">Local only · no history · no network. Stops on full navigation. Use on non-sensitive pages. Visible highlighting can influence clicks; modes are not randomized.</p><p id="error" role="alert"></p></main><script src="popup.js"></script></body></html>
